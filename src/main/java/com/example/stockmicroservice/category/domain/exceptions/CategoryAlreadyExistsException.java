@@ -2,6 +2,6 @@ package com.example.stockmicroservice.category.domain.exceptions;
 
 public class CategoryAlreadyExistsException extends RuntimeException {
     public CategoryAlreadyExistsException() {
-        super();
+        super("Category already exists");
     }
 }

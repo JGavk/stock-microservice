@@ -7,6 +7,7 @@ import com.example.stockmicroservice.category.application.mappers.CategoryDtoMap
 import com.example.stockmicroservice.category.application.services.CategoryService;
 import com.example.stockmicroservice.category.domain.model.CategoryModel;
 import com.example.stockmicroservice.category.domain.ports.in.CategoryServicePort;
+import com.example.stockmicroservice.category.infrastructure.exceptions.ExceptionConstats;
 import com.example.stockmicroservice.commons.configurations.utils.Constants;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -26,19 +27,9 @@ public class CategoryServiceImplementation implements CategoryService {
 
     @Override
     public SaveCategoryResponse save(SaveCategoryRequest request) {
-        System.out.println(request);
-        if(request.name()== null ){
-            System.out.println("Name is empty");
-        }else{
-            System.out.println("not empty");
-        }
-        if(request.description()== null ){
-            System.out.println("description is empty");
-        }else{
-            System.out.println("not empty");
-        }
+
         CategoryModel categoryModel = categoryDtoMapper.requestToModel(request);
-        System.out.println("Mapped Model: name=" + categoryModel.getName() + ", description=" + categoryModel.getDescription());
+
         categoryServicePort.save(categoryDtoMapper.requestToModel(request));
 
         return new SaveCategoryResponse(Constants.SAVE_CATEGORY_RESPONSE_MESSAGE, LocalDateTime.now());
@@ -46,6 +37,9 @@ public class CategoryServiceImplementation implements CategoryService {
 
     @Override
     public List<CategoryResponse> getAllCategories(Integer page, Integer size) {
+        if (size < 1) {
+            throw new IllegalArgumentException(ExceptionConstats.SIZE_MINIMUM_VALUE);
+        }
         return categoryDtoMapper.modelToResponseList(categoryServicePort.getAllCategories(page, size));
     }
 

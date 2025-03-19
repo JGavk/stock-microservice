@@ -21,9 +21,9 @@ public class CategoryController {
     public ResponseEntity<SaveCategoryResponse> save(@RequestBody SaveCategoryRequest saveCategoryRequest) {
         return ResponseEntity.status(HttpStatus.CREATED).body(categoryService.save(saveCategoryRequest));
     }
-
+/* Gets the categories by certain amount and at certain page */
     @GetMapping("/get")
-    public ResponseEntity<List<CategoryResponse>> getAllCategories(@RequestParam Integer page, @RequestParam Integer size) {
+    public ResponseEntity<List<CategoryResponse>> getAllCategories(@RequestParam(defaultValue = "0") Integer page, @RequestParam(defaultValue = "10") Integer size) {
         return ResponseEntity.ok(categoryService.getAllCategories(page, size));
     }
 }

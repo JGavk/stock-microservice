@@ -18,7 +18,7 @@ public class CategoryUse implements CategoryServicePort {
     public void save(CategoryModel categoryModel) {
         CategoryModel category = categoryPersistencePort.getCategoryByName(categoryModel.getName());
 
-        if (category != null && category == categoryPersistencePort.getCategoryByName(categoryModel.getName())) {
+        if (category != null ) {
             throw new CategoryAlreadyExistsException();
         }
         categoryPersistencePort.save(categoryModel);

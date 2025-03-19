@@ -2,14 +2,14 @@ package com.example.stockmicroservice.category.infrastructure.adapters;
 
 import com.example.stockmicroservice.category.domain.model.CategoryModel;
 import com.example.stockmicroservice.category.domain.ports.out.CategoryPersistencePort;
+import com.example.stockmicroservice.category.infrastructure.exceptions.ExceptionConstats;
 import com.example.stockmicroservice.category.infrastructure.mapper.CategoryEntityMapper;
 import com.example.stockmicroservice.category.infrastructure.repositories.CategoryRepository;
-import com.example.stockmicroservice.commons.configurations.utils.Constants;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-import org.springframework.data.domain.Sort;
+
 import org.springframework.data.domain.Pageable;
 import java.util.List;
 
@@ -33,7 +33,9 @@ public class CategoryPersistenceAdapter implements CategoryPersistencePort {
 
     @Override
     public List<CategoryModel> getAllCategories(Integer page, Integer size) {
-
+        if (size < 1) {
+            throw new IllegalArgumentException(ExceptionConstats.SIZE_MINIMUM_VALUE);
+        }
         Pageable pagination = PageRequest.of(page, size);
         return categoryEntityMapper.entityListToModelList(categoryRepository.findAll(pagination).getContent());
     }
