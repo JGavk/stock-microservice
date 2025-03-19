@@ -14,13 +14,13 @@ import java.time.LocalDateTime;
 public class ControllerAdvisor {
     @ExceptionHandler(MaxCharacterException.class)
     public ResponseEntity<ExceptionResponse> handleMaxCharacterException(MaxCharacterException exception) {
-        return ResponseEntity.badRequest().body(new ExceptionResponse(ExceptionConstats.NAME_MAX_SIZE_MESSAGE,
+        return ResponseEntity.badRequest().body(new ExceptionResponse(ExceptionConstats.DESCRIPTION_MAX_SIZE_MESSAGE,
                 LocalDateTime.now()));
     }
 
     @ExceptionHandler(MaxLengthException.class)
     public ResponseEntity<ExceptionResponse> handleMaxLengthException(MaxLengthException exception) {
-        return ResponseEntity.badRequest().body(new ExceptionResponse(ExceptionConstats.DESCRIPTION_MAX_SIZE_MESSAGE,
+        return ResponseEntity.badRequest().body(new ExceptionResponse(ExceptionConstats.NAME_MAX_SIZE_MESSAGE,
                 LocalDateTime.now()));
     }
 
